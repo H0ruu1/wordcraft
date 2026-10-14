@@ -196,13 +196,7 @@ fn is_persian_sans(f: &str) -> bool {
 
 /// Hebrew document fonts.
 fn is_hebrew(f: &str) -> bool {
-    const NAMES: &[&str] = &[
-        "david",
-        "miriam",
-        "noto sans hebrew",
-        "arial hebrew",
-        "calibri hebrew",
-    ];
+    const NAMES: &[&str] = &["david", "miriam", "noto sans hebrew", "arial hebrew", "calibri hebrew"];
     NAMES.contains(&f) || f.contains("hebrew")
 }
 

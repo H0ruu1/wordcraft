@@ -496,16 +496,8 @@ pub const RTL_FALLBACKS: &[&str] = &[
 ];
 
 #[cfg(not(any(windows, target_os = "macos")))]
-pub const RTL_FALLBACKS: &[&str] = &[
-    "Noto Naskh Arabic",
-    "Noto Sans Arabic",
-    "Noto Sans Hebrew",
-    "Vazirmatn",
-    "Segoe UI",
-    "Arial",
-    "Tahoma",
-    "DejaVu Sans",
-];
+pub const RTL_FALLBACKS: &[&str] =
+    &["Noto Naskh Arabic", "Noto Sans Arabic", "Noto Sans Hebrew", "Vazirmatn", "Segoe UI", "Arial", "Tahoma", "DejaVu Sans"];
 
 /// Families tried (when installed) for characters the loaded fonts lack: CJK, symbols, emoji.
 #[cfg(not(target_arch = "wasm32"))]
