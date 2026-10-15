@@ -21,6 +21,8 @@ wordcraft-zotero = { workspace = true }
 # Dictate and Translate Document: the local models, their language codes and audio helpers.
 wordcraft-ml = { workspace = true }
 egui = { workspace = true }
+# Font coverage for right-to-left text in the interface (`bidi.rs`).
+skrifa = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
 log = { workspace = true }
