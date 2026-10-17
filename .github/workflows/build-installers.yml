@@ -1,0 +1,63 @@
+# Test installers for this branch (not for upstream): the Windows x64 MSI and portable zip, and the
+# macOS universal DMG, built with the project's own packaging scripts. Unsigned on Windows and
+# ad-hoc signed on macOS, so Windows SmartScreen and macOS Gatekeeper will warn.
+name: Build installers (test)
+
+on:
+  push:
+    branches: [build/installers]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: storytold/craft-fonts
+          path: craft-fonts
+      - name: Rust and WiX
+        shell: pwsh
+        run: |
+          rustup update stable
+          rustup target add x86_64-pc-windows-msvc
+          dotnet tool install --global wix --version 5.0.2
+      - name: Package
+        shell: pwsh
+        env:
+          CRAFT_FONTS_DIR: ${{ github.workspace }}\craft-fonts
+        run: pwsh packaging/windows/package.ps1 -Arch x64
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-x64
+          path: dist/release/*
+          if-no-files-found: error
+
+  macos:
+    runs-on: macos-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: storytold/craft-fonts
+          path: craft-fonts
+      - name: Rust and tools
+        run: |
+          rustup update stable
+          rustup target add aarch64-apple-darwin x86_64-apple-darwin
+          command -v convert >/dev/null || brew install imagemagick
+      - name: Package
+        env:
+          CRAFT_FONTS_DIR: ${{ github.workspace }}/craft-fonts
+        run: bash packaging/macos/package.sh --arch universal
+      - uses: actions/upload-artifact@v4
+        with:
+          name: macos-universal
+          path: dist/release/*
+          if-no-files-found: error
