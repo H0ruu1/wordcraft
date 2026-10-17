@@ -32,8 +32,9 @@ jobs:
           rustup update stable
           rustup target add x86_64-pc-windows-msvc
           dotnet tool install --global wix --version 5.0.2
-          # The installers' dialogs (WixUI) come from this extension.
+          # The extensions the projects' .wxs files use (WordCraft and PhotoCraft: dialogs and utilities).
           wix extension add -g WixToolset.UI.wixext/5.0.2
+          wix extension add -g WixToolset.Util.wixext/5.0.2
       - name: Package
         shell: pwsh
         env:
